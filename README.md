@@ -1,4 +1,9 @@
-﻿# HassanOS
-Your Own World is my OS
-(ps: this is not a professional thing just a passion project nothing big)
+# colibri - TUI Search Engine and Browser
 
+Requires gcc and ncurses.
+
+Run on WSL or any Linux dsitro in a terminal emutator by cloning this repo and using
+```bash
+make build
+./browser.c
+```

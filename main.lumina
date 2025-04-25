@@ -1,0 +1,7 @@
+
+say("I am so productive in HassanOS but more than that what is your name:");
+set(name);
+inputc(name);
+nextl();
+say("Wassup ");
+sayinput(name);

@@ -1,0 +1,4 @@
+
+#include <std.io>
+
+say("Hello Young Sir");

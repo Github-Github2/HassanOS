@@ -1,0 +1,279 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#define Sleep(x) sleep((x)/1000)  // Define Sleep for non-Windows
+#endif
+
+#define CMD_LEAVE 0
+#define CMD_CALCULATOR 12
+#define CMD_BANK 1
+#define CMD_NEKSUS 2
+#define CMD_EXIT 192
+#define CMD_MESSAGE_BOARD 3
+#define CMD_NOVA 4
+#define CMD_SEEKSMART 5
+#define CMD_SETTINGS 6
+#define CMD_FILEMANAGER 7
+#define CMD_APPSTORE 8
+#define CMD_LUMINA 9
+#define CMD_LINUX 10
+#define CMD_HSE 11
+#define CMD_PYTHON 13
+#define CMD_MOTIVATION 14
+#define CMD_CATPEDIA 15
+#define CMD_OXEN 16
+
+char w[500];
+char s[500];
+int init[4] = {0, 0, 0, 0};
+int nnit = 0;
+
+void print_centered(const char *text, int term_width) {
+    int text_length = strlen(text);
+    int start_pos = (term_width - text_length) / 2;
+    for (int i = 0; i < start_pos; i++) putchar(' ');
+    printf("%s\n", text);
+}
+
+void search(const char* query) {
+    if (strcmp(query, "apple") == 0) {
+        printf("https://www.apple.com/\n");
+        printf("https://en.wikipedia.org/wiki/Apple_Inc.\n");
+    } else if (strcmp(query, "banana") == 0) {
+        printf("https://en.wikipedia.org/wiki/Banana\n");
+    } else if (strcmp(query, "orange") == 0) {
+        printf("https://en.wikipedia.org/wiki/Orange_(fruit)\n");
+        printf("https://en.wikipedia.org/wiki/Orange_(colour)\n");
+    }
+}
+
+void do_math() {
+    int jak, jae;
+    char jik[50];
+    system("cls");
+    printf("Give me a number: ");
+    scanf("%d", &jak);
+    printf("Give me another: ");
+    scanf("%d", &jae);
+    printf("What should the Operation be [plus/multiplication/subtraction/division]: ");
+    scanf("%49s", jik);
+
+    int ulti;
+    if (strcmp(jik, "plus") == 0) ulti = jak + jae;
+    else if (strcmp(jik, "multiplication") == 0) ulti = jak * jae;
+    else if (strcmp(jik, "subtraction") == 0) ulti = jak - jae;
+    else if (strcmp(jik, "division") == 0) {
+        if (jae != 0) ulti = jak / jae;
+        else { printf("Cannot divide by zero!\n"); return; }
+    } else {
+        printf("Unknown operation.\n");
+        return;
+    }
+    printf("Result: %d\n", ulti);
+}
+
+void print_file(const char *name, const char *type) {
+    printf("_____\n|   |\n| F |\n|___|\n%s.%s\n", name, type);
+}
+
+void handle_system_call(int cmd, int term_width) {
+    switch (cmd) {
+        case CMD_LEAVE:
+            return;
+        case CMD_CALCULATOR:
+            do_math();
+            break;
+        case CMD_BANK:
+            system("Bank");
+            break;
+        case CMD_NEKSUS:
+            system("Neksus");
+            break;
+        case CMD_EXIT:
+            exit(0);
+        case CMD_MESSAGE_BOARD:
+            system("Messageboard");
+            break;
+        case CMD_NOVA:
+            system("Nova");
+            break;
+        case CMD_SEEKSMART: {
+            char url[100], command[200];
+            printf("What is the website name:\n");
+            scanf("%s", url);
+            snprintf(command, sizeof(command), "links %s", url);
+            system(command);
+            break;
+        }
+        case CMD_SETTINGS: {
+            print_centered("Settings", term_width);
+            printf("Blue: 1\nRed: 2\nBlack: 3\nGreen: 4\nPurple: 5\nEnter color: ");
+            int color_option;
+            scanf("%d", &color_option);
+            getchar();
+            switch (color_option) {
+                case 1: system("color 17"); break;
+                case 2: system("color 4F"); break;
+                case 3: system("color 0F"); break;
+                case 4: system("color 2F"); break;
+                case 5: system("color 5F"); break;
+                default: printf("Invalid color\n"); break;
+            }
+            break;
+        }
+        case CMD_FILEMANAGER:
+            printf("What should the file name be: ");
+            scanf("%499s", w);
+            printf("What is its extension: ");
+            scanf("%499s", s);
+            getchar();
+            nnit = 1;
+            break;
+        case CMD_APPSTORE: {
+            printf("+-------------------------------+\n");
+            printf("| Python: A Programming Language|\n");
+            printf("| Motivation: Don't Feel Down bub|\n");
+            printf("| CatPedia: The Cat Encyclopedia|\n");
+            printf("| OXen Project:Open Source Project|\n");
+            printf("Search: ");
+            char app_search[500];
+            scanf("%499s", app_search);
+            getchar();
+            char bar[20];
+            strcpy(bar, "[###       ]");
+
+            int app_index = -1;
+            if (strcmp("Python", app_search) == 0) app_index = 0;
+            else if (strcmp("Motivation", app_search) == 0) app_index = 1;
+            else if (strcmp("CatPedia", app_search) == 0) app_index = 2;
+            else if (strcmp("Oxen", app_search) == 0) app_index = 3;
+
+            if (app_index != -1) {
+                for (int i = 0; i < 3; i++) {
+                    print_centered(bar, term_width);
+                    Sleep(1000);
+                    bar[3 + i * 2] = '#';
+                }
+                print_centered(bar, term_width);
+                printf("Successfully Downloaded\n");
+                init[app_index] = 1;
+            } else {
+                printf("Application not found.\n");
+            }
+            break;
+        }
+        case CMD_LUMINA: {
+            char name[500], command[600];
+            printf("Give me the file name: ");
+            scanf("%499s", name);
+            getchar();
+            snprintf(command, sizeof(command), "Lumina %s.lum", name);
+            if (system(command) != 0) printf("Unsuccessful\n");
+            else printf("Code successfully ran\n");
+            break;
+        }
+        case CMD_LINUX:
+            printf("Starting the HSL(HassanOS Subsystem for Linux)\nPlease Wait\n");
+            Sleep(5000);
+            system("cls");
+            system("wsl");
+            break;
+        case CMD_HSE:
+            printf("STARTING THE HSE\n");
+            Sleep(5000);
+            system("cls");
+            system("wsl -d archlinux /mnt/c/Users/blueh/OneDrive/HassanOS/HSE");
+            break;
+        case CMD_PYTHON:
+            printf("Initializing Python. Wait 5 seconds\n");
+            Sleep(5000);
+            system("python");
+            break;
+        case CMD_MOTIVATION: {
+            char vhy[500];
+            printf("Why did you download this?\nShall you continue [Y/n]: ");
+            scanf("%499s", vhy);
+            getchar();
+            if (strcmp(vhy, "Y") == 0) {
+                printf("K\n");
+                Sleep(1000);
+                system("./motivation");
+            }
+            break;
+        }
+        case CMD_CATPEDIA:
+            printf("CatPedia Loading, wait 5 seconds\n");
+            Sleep(5000);
+            system("./CatPedia");
+            break;
+        case CMD_OXEN:
+            printf("OXen getting ready to run... wait 5 seconds\n");
+            Sleep(5000);
+            system("./OXen");
+            break;
+        default:
+            printf("Invalid command\n");
+            break;
+    }
+}
+
+void print_bottom_boxes() {
+    printf("+---+ +---+ +---+ +---+ +---+ +---+ +---+ +---+  +---+ +---+ +---+ +---+");
+    if (init[0]) printf(" +---+");
+    if (init[1]) printf(" +---+");
+    if (init[2]) printf(" +---+");
+    if (init[3]) printf(" +---+");
+    printf("\n| c | | b | | n | | m | | t | | L | | + | |FM |  | - | |LUM| |HSL| |HSE| ");
+    if (init[0]) printf(" | P |");
+    if (init[1]) printf(" | M |");
+    if (init[2]) printf(" |CP |");
+    if (init[3]) printf(" |Oxn|");
+    printf("\n+---+ +---+ +---+ +---+ +---+ +---+ +---+ +---+  +---+ +---+ +---+ +---+");
+    if (init[0]) printf(" +---+");
+    if (init[1]) printf(" +---+");
+    if (init[2]) printf(" +---+");
+    if (init[3]) printf(" +---+");
+    printf("\n");
+}
+
+void handle_user_input(int term_width) {
+    int command;
+    printf("\nEnter command: ");
+    scanf("%d", &command);
+    getchar();
+    handle_system_call(command, term_width);
+}
+
+void print_interface(int term_height, int term_width) {
+    system("cls");
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    printf("%02d/%02d/%04d\n", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
+    if (nnit == 1) print_file(w, s);
+    print_centered("~HassanOS~", term_width);
+    for (int i = 1; i < term_height - 11; i++) printf("\n");
+    print_bottom_boxes();
+}
+
+void handle_interrupts() {
+    // Reserved for future interrupt logic
+}
+
+int main() {
+    int term_width = 209;
+    int term_height = 50;
+    system("color 17");
+    while (1) {
+        print_interface(term_height, term_width);
+        handle_user_input(term_width);
+        printf("\nPress Enter to continue...");
+        getchar();
+        handle_interrupts();
+    }
+    return 0;
+}
