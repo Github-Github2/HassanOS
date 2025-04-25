@@ -1,9 +1,2 @@
-# colibri - TUI Search Engine and Browser
-
-Requires gcc and ncurses.
-
-Run on WSL or any Linux dsitro in a terminal emutator by cloning this repo and using
-```bash
-make build
-./browser.c
-```
+# HassanOS
+so currently my bad for the HSE it doesnt work if you dont use archlinux for wsl i will try branch out to more distros ie: OpenSUSE or Ubuntu
